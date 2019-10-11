@@ -1,4 +1,5 @@
 import math
+from itertools import product
 from bfs import bfs
 from treeSearch import treeSearch
 
@@ -6,6 +7,19 @@ class State:
     def __init__(self, positions, tickets):
         self.positions = positions
         self.tickets = tickets
+    
+    def __eq__(self, state):
+        return self.positions == state.positions and \
+               self.tickets == state.tickets
+
+class Action:
+    def __init__(self, ticketsUsed, newPositions):
+        self.ticketsUsed = ticketsUsed
+        self.newPositions = newPositions
+    
+    def __eq__(self, action):
+        return self.ticketsUsed == action.ticketsUsed and \
+               self.newPositions == action.newPositions
 
 class SearchProblem:
     def __init__(self, goal, model, auxheur = []):
@@ -17,31 +31,34 @@ class SearchProblem:
             self.distances.append(bfs(self.transitions, v))
 
     def search(self, init, limitexp = 2000, limitdepth = 10, tickets = [math.inf, math.inf, math.inf], anyorder = False):
-        self.initialState = State(init, tickets)
-        return treeSearch(self)
+        self.initialState = State(init, tickets)   # Estado inicial (posições, bilhetes)
+        self.numPolicemen = len(init) # Nº de polícias
+        result = treeSearch(self)
+        return result
+
+    def getPossibleActions(self, state):
+        # Guardar as ações que cada polícia pode fazer
+        actionsByPoliceman = [self.transitions[pos] for pos in state.positions]
+        actionCombinations = list(product(*actionsByPoliceman))
+        possibleActions = [Action(
+            [action[0] for action in actionCombination],
+            [action[1] for action in actionCombination])
+            for actionCombination in actionCombinations]
+        return possibleActions
 
     def result(self, state, action):
         tickets = state.tickets[:] # Cópia dos bilhetes do estado atual
 
-        ticketsUsed = getTicketsUsed(state.position, action)
-        for t in ticketsUsed:
+        for t in action.ticketsUsed:
             tickets[t] -= 1 # Descontar os bilhetes usados para ir para a nova posição
 
         return State(action, tickets)
 
-
-    def getTicketsUsed(self, pos1, pos2):
-        numPos = len(pos1)
-
-        ticketsUsed = []
-        for i in range(numPos):
-            for edge in self.transitions[pos1[i]]:
-                if edge[1] == pos2[i]:
-                    ticketsUsed[i] = edge[0]
-                    break
-
     def tracebackPath(self, node):
         if node.parent:
-            ticketsUsed = getTicketsUsed(node.parent.state.positions, node.state.positions)
-            return tracebackPath(node.parent) + [[ticketsUsed, node.state.postions]]
+            return self.tracebackPath(node.parent) + [[node.action.ticketsUsed, node.state.postions]]
         return [[[], node.state.positions]]
+    
+    def isGoal(self, state):
+        return state.positions == self.goal
+
