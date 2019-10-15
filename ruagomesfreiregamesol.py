@@ -31,78 +31,54 @@ class Action:
         self.newPositions = newPositions
 
 class Node:
-    def __init__(self, state, parent, action, pathCost, problem):
+    def __init__(self, problem, state, parent, action, pathCost):
+        self.problem = problem
         self.state = state
         self.parent = parent
         self.action = action
         self.pathCost = pathCost
-        self.totalCost = self.calculateTotalCost(problem)
+        self.totalCost = self.calculateTotalCost()
 
-    def expand(self, problem):
+    def expand(self):
         children = []
-        for action in problem.getPossibleActions(self.state):
-            children.append(self.childNode(problem, action))
+        for action in self.problem.getPossibleActions(self.state):
+            children.append(self.childNode(action))
         return children
 
-    def childNode(self, problem, action):
+    def childNode(self, action):
         return Node(
-            problem.result(self.state, action),       # Novo estado
+            self.problem,
+            self.problem.result(self.state, action),  # Novo estado
             self,                                     # O pai do filho é o próprio nó
             action,                                   # Ação usada para gerar o filho
             self.pathCost + 1)                        # O novo custo é o custo deste nó + 1
     
-    def calculateTotalCost(self, problem):
-        estimatedDistance = problem.distance[]
-        # f(n) =   g(n)      +    h(n)
+    def calculateTotalCost(self):
+        if self.problem.anyorder: # Obter todas as permutações da posição objetivo
+            goals = [list(goal) for goal in permutations(self.problem.goal, self.problem.numPolicemen)]
+        else:
+            goals = [self.problem.goal]
+
+        goalMaxDistances = []
+        for goal in goals: # Calcular a distância do polícia que está mais longe do seu objetivo
+            distances = [self.problem.distance[self.state.positions[i]][goal[i]] for i in range(self.problem.numPolicemen)]
+            goalMaxDistances.append(max(distances))
+        
+        estimatedDistance = min(goalMaxDistances)
+
+        # f(n) =   g(n)      +        h(n)
         return self.pathCost + estimatedDistance
 
-
-class MinPriorityQueue:
-    def __init__(self):
-        self.nodes = []
-    
-    def pop(self):
-        l = len(self.nodes)
-        if l == 0:
-            return None
-        elif l == 1:
-            return self.nodes.pop()
-        
-        firstNode = self.nodes[0]
-        self.nodes[0] = self.nodes.pop()
-        self.fixSubtree(0)
-
-        return firstNode
-
-    def fixSubtree(self, root):
-        size = len(self.nodes)
-        
-        left = 2 * root + 1
-        right = 2 * root + 2
-        largest = root
-        largestVal = self.nodes[largest].totalCost
-
-        if left < size:
-            leftVal = self.nodes[left].totalCost
-            if leftVal < rootVal:
-                largest = left
-
-    def exchange(self, n1, n2):
-        temp = self.n1
-        self.n1 = self.n2
-        self.n2 = temp
-
-def treeSearch(problem):
-    frontier = PriorityQueue()
-    frontier = [Node(problem.initialState, None, problem.initialAction, 0)]
+def aStar(problem): # A*
+    frontier = [Node(problem, problem.initialState, None, problem.initialAction, 0)]
     while True:
         if not frontier:                         # Retornar [] se a fronteira ficar vazia
             return []
-        node = extractNode(frontier)             # Escolher nó da fronteira de expansão
+        node = frontier.pop()                    # Escolher nó da fronteira de expansão
         if problem.isGoal(node.state):           # Se o nó tiver o estado objetivo,
             return problem.tracebackPath(node)   # devolver o caminho encontrado
-        for child in node.expand(problem):       # Expandir o nó atual
-
+        for child in node.expand():              # Expandir o nó atual
+            frontier.append(child)
 
 class SearchProblem:
     def __init__(self, goal, model, auxheur = []):
@@ -117,8 +93,9 @@ class SearchProblem:
         self.initialState = State(init, tickets) # Estado inicial (posições, bilhetes)
         self.initialAction = Action([], init) # Ação inicial
         self.numPolicemen = len(init) # Nº de polícias
-        result = treeSearch(self)
-        return result
+        self.anyorder = anyorder # Se interessa ou não que polícia está em cada posição objetivo
+
+        return aStar(self)
 
     def getPossibleActions(self, state):
         # Guardar as ações que cada polícia pode fazer
@@ -128,32 +105,28 @@ class SearchProblem:
         # Ex.: ([0, 20], [1, 36], [0, 37])
         actionCombinations = list(product(*actionsByPoliceman))
 
-        # Remover as ações inválidas
-        validActionCombinations = []
-        for comb in actionCombinations:
+        def validTickets(comb):
             ticketsCopy = state.tickets[:]
             for action in comb: # Descontar os bilhetes usados
                 ticketsCopy[action[0]] -= 1
-            validTickets = True
+            
             for ticketType in ticketsCopy: # Se forem usados mais bilhetes de um tipo
                 if ticketType < 0:         # do que aqueles que existem, a ação é inválida
-                    validTickets = False
-                    break
-            if not validTickets:
-                continue
-            
-            validPositions = True
+                    return False
+            return True
+
+        def validPositions(comb):
             for i in range(len(comb)):
                 for j in range(i + 1, len(comb)):
-                    if comb[i][1] == comb[j][1]: # Dois polícias querem ir para a mesma posição -> Ação inválida
-                        validPositions = False
-                        break
-                if not validPositions:
-                    break
-            if not validPositions: 
-                continue
-
-            validActionCombinations.append(comb)
+                    if comb[i][1] == comb[j][1]: # Dois polícias querem ir para a mesma 
+                        return False             # posição -> Ação inválida
+            return True
+        
+        # Remover as ações inválidas
+        validActionCombinations = []
+        for comb in actionCombinations:
+            if validTickets(comb) and validPositions(comb):
+                validActionCombinations.append(comb)
 
         # Lista de ações no formato Action([transporte1, transporte2, ...], [pos1, pos2, ...])
         # Ex.: ([0, 1, 0], [20, 36, 37])
@@ -184,4 +157,3 @@ class SearchProblem:
                     return True
             return False
         return state.positions == self.goal
-
