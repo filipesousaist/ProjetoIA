@@ -61,7 +61,7 @@ class Node:
 
         goalMaxDistances = []
         for goal in goals: # Calcular a distância do polícia que está mais longe do seu objetivo
-            distances = [self.problem.distance[self.state.positions[i]][goal[i]] for i in range(self.problem.numPolicemen)]
+            distances = [self.problem.distances[self.state.positions[i]][goal[i]] for i in range(self.problem.numPolicemen)]
             goalMaxDistances.append(max(distances))
         
         estimatedDistance = min(goalMaxDistances)
