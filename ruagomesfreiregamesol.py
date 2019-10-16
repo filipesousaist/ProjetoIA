@@ -103,12 +103,12 @@ class SearchProblem:
 
         # Lista de combinações possíveis de ações no formato ([transporte1, pos1], [transporte2, pos2], ...) 
         # Ex.: ([0, 20], [1, 36], [0, 37])
-        actionCombinations = list(product(*actionsByPoliceman))
+        moveCombinations = list(product(*actionsByPoliceman))
 
         def validTickets(comb):
             ticketsCopy = state.tickets[:]
-            for action in comb: # Descontar os bilhetes usados
-                ticketsCopy[action[0]] -= 1
+            for move in comb: # Descontar os bilhetes usados
+                ticketsCopy[move[0]] -= 1
             
             for ticketType in ticketsCopy: # Se forem usados mais bilhetes de um tipo
                 if ticketType < 0:         # do que aqueles que existem, a ação é inválida
@@ -116,24 +116,24 @@ class SearchProblem:
             return True
 
         def validPositions(comb):
-            for i in range(len(comb)):
+            for i in range(len(comb) - 1):
                 for j in range(i + 1, len(comb)):
                     if comb[i][1] == comb[j][1]: # Dois polícias querem ir para a mesma 
                         return False             # posição -> Ação inválida
             return True
         
         # Remover as ações inválidas
-        validActionCombinations = []
-        for comb in actionCombinations:
+        validMoveCombinations = []
+        for comb in moveCombinations:
             if validTickets(comb) and validPositions(comb):
-                validActionCombinations.append(comb)
+                validMoveCombinations.append(comb)
 
         # Lista de ações no formato Action([transporte1, transporte2, ...], [pos1, pos2, ...])
         # Ex.: ([0, 1, 0], [20, 36, 37])
         possibleActions = [Action(
-            [action[0] for action in actionCombination],
-            [action[1] for action in actionCombination])
-            for actionCombination in validActionCombinations]
+            [move[0] for move in comb],
+            [move[1] for move in comb])
+            for comb in validMoveCombinations]
         
         return possibleActions
 
@@ -148,7 +148,7 @@ class SearchProblem:
     def tracebackPath(self, node):
         if node.parent:
             return self.tracebackPath(node.parent) + [[node.action.ticketsUsed, node.state.postions]]
-        return [[[], node.state.positions]]
+        return [[node.action.ticketsUsed, node.state.positions]]
     
     def isGoal(self, state):
         if self.anyorder:
