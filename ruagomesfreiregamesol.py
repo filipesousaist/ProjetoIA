@@ -1,6 +1,8 @@
 import math
 from itertools import product, permutations
 
+MAX_HEURISTIC = 8 # Determinada experimentalmente
+
 def bfs(transitions, src):
     N = len(transitions)
 
@@ -24,6 +26,14 @@ class State:
     def __init__(self, positions, tickets):
         self.positions = positions
         self.tickets = tickets
+    
+    def result(self, action):
+        tickets = self.tickets[:] # Cópia dos bilhetes do estado atual
+
+        for t in action.ticketsUsed:
+            tickets[t] -= 1 # Descontar os bilhetes usados para ir para a nova posição
+
+        return State(action.newPositions, tickets)
 
 class Action:
     def __init__(self, ticketsUsed, newPositions):
@@ -48,10 +58,10 @@ class Node:
     def childNode(self, action):
         return Node(
             self.problem,
-            self.problem.result(self.state, action),  # Novo estado
-            self,                                     # O pai do filho é o próprio nó
-            action,                                   # Ação usada para gerar o filho
-            self.pathCost + 1)                        # O novo custo é o custo deste nó + 1
+            self.state.result(action),  # Novo estado
+            self,                       # O pai do filho é o próprio nó
+            action,                     # Ação usada para gerar o filho
+            self.pathCost + 1)          # O novo custo é o custo deste nó + 1
     
     def calculateTotalCost(self):
         if self.problem.anyorder: # Obter todas as permutações da posição objetivo
@@ -69,16 +79,49 @@ class Node:
         # f(n) =   g(n)      +        h(n)
         return self.pathCost + estimatedDistance
 
+    def tracebackPath(self):
+        print(self.state.positions, self.totalCost)
+        if self.parent:
+            return self.parent.tracebackPath() + [[self.action.ticketsUsed, self.state.positions]]
+        return [[self.action.ticketsUsed, self.state.positions]]
+
+class Frontier:
+    def __init__(self, initialSize, initialNode):
+        self.mainList = [[]] * initialSize
+        self.mainList[initialNode.totalCost].append(initialNode)
+        self.lowerBound = initialNode.totalCost
+        self.upperBound = initialSize - 1
+        
+    def insert(self, node):
+        if node.totalCost > self.upperBound:
+            self.mainList += [[]] * (node.totalCost - self.upperBound)
+            self.upperBound = node.totalCost
+                
+        self.mainList[node.totalCost].append(node)
+    
+    def pop(self):
+        while not self.mainList[self.lowerBound]:
+            self.lowerBound += 1
+            if self.lowerBound > self.upperBound:
+                return None
+
+        #return self.mainList[self.lowerBound].pop()
+
+        node = self.mainList[self.lowerBound][0]
+        del self.mainList[self.lowerBound][0]
+        return node
+
 def aStar(problem): # A*
-    frontier = [Node(problem, problem.initialState, None, problem.initialAction, 0)]
+    frontier = Frontier(MAX_HEURISTIC, Node(problem, problem.initialState, None, problem.initialAction, 0))
+    
     while True:
-        if not frontier:                         # Retornar [] se a fronteira ficar vazia
-            return []
         node = frontier.pop()                    # Escolher nó da fronteira de expansão
+        if not node:                             # Retornar [] se a fronteira ficar vazia
+            return []
         if problem.isGoal(node.state):           # Se o nó tiver o estado objetivo,
-            return problem.tracebackPath(node)   # devolver o caminho encontrado
+            return node.tracebackPath()          # devolver o caminho encontrado
         for child in node.expand():              # Expandir o nó atual
-            frontier.append(child)
+            frontier.insert(child)
 
 class SearchProblem:
     def __init__(self, goal, model, auxheur = []):
@@ -136,19 +179,6 @@ class SearchProblem:
             for comb in validMoveCombinations]
         
         return possibleActions
-
-    def result(self, state, action):
-        tickets = state.tickets[:] # Cópia dos bilhetes do estado atual
-
-        for t in action.ticketsUsed:
-            tickets[t] -= 1 # Descontar os bilhetes usados para ir para a nova posição
-
-        return State(action.newPositions, tickets)
-
-    def tracebackPath(self, node):
-        if node.parent:
-            return self.tracebackPath(node.parent) + [[node.action.ticketsUsed, node.state.postions]]
-        return [[node.action.ticketsUsed, node.state.positions]]
     
     def isGoal(self, state):
         if self.anyorder:

@@ -33,6 +33,7 @@ def validatepath(oP,I,U,tickets=[25,25,25]):
                 return False
         P = copy.deepcopy(oP)
         del P[0]
+        print(oP)
         for tt in P:
                 for agind,ag in enumerate(tt[1]):
                         #print(ag)
@@ -49,6 +50,7 @@ def validatepath(oP,I,U,tickets=[25,25,25]):
                                 else:
                                         print('invalid action')
                                         return False
+        print(oP)
         return True
 
 tinittotal = time.process_time()
