@@ -7,11 +7,12 @@ from ruagomesfreiregamesol import SearchProblem
 with open("coords.pickle", "rb") as fp:   # Unpickling
     coords = pickle.load(fp)
     
-with open("mapasgraph2.pickle", "rb") as fp:   #Unpickling
+with open("mapasgraph.pickle", "rb") as fp:   #Unpickling
     AA = pickle.load(fp)
 U = AA[1]
 
-def plotpath(P,coords):   
+def plotpath(P,coords):
+        return
         img = plt.imread('maps.png')
         plt.imshow(img)
         colors = ['r.-','g+-','b^-']
@@ -29,15 +30,12 @@ def plotpath(P,coords):
         plt.show()
         
 def validatepath(oP,oI,U,tickets=[25,25,25]): 
-        print(oP)
         if not oP:
                 return False
         P = copy.deepcopy(oP)
         I = copy.copy(oI)
         mtickets = copy.copy(tickets)
 
-        print(I)
-        print(P[0][1])
         if I!=P[0][1]:
                 print('path does not start in the initial state')
                 return False
@@ -65,7 +63,6 @@ def validatepath(oP,oI,U,tickets=[25,25,25]):
                         print(tt)
                         print('there is more than one police in the same location')
                         return False
-        print(oP)
         return True
 
 tinittotal = time.process_time()
