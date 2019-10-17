@@ -7,7 +7,7 @@ from ruagomesfreiregamesol import SearchProblem
 with open("coords.pickle", "rb") as fp:   # Unpickling
     coords = pickle.load(fp)
     
-with open("mapasgraph2.pickle", "rb") as fp:   #Unpickling
+with open("mapasgraph.pickle", "rb") as fp:   #Unpickling
     AA = pickle.load(fp)
 U = AA[1]
 
