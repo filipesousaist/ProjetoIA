@@ -49,7 +49,20 @@ class Node:
             action,                     # Ação usada para gerar o filho
             self.pathCost + 1)          # O novo custo é o custo deste nó + 1
     
-    def calculateTotalCost(self):
+    def goalHeuristic(self, goal):
+        distances = [self.problem.distances[self.state.positions[i]][goal[i]] for i in range(self.problem.numPolicemen)]
+
+        # Heurística: se houver polícias no goal e outros a 1 de distância, retornar 2
+        has = [False, False]
+        for d in distances:
+            if d < 2:
+                has[d] = True
+        if has[0] and has[1]:
+            return 2
+        else:
+            return max(distances)
+
+    def __calculateTotalCost(self):
         if self.problem.anyorder: # Obter todas as permutações da posição objetivo
             goals = [list(goal) for goal in permutations(self.problem.goal, self.problem.numPolicemen)]
         else:
@@ -72,6 +85,20 @@ class Node:
         estimatedDistance = min(goalMaxDistances)
 
         # f(n) =   g(n)      +        h(n)
+        return self.pathCost + estimatedDistance
+
+    def _calculateTotalCost(self):   
+        # f(n) =   g(n)      +        h(n)
+        return self.pathCost + self.goalHeuristic(self.problem.goal)
+
+    def _calculateTotalCost_ao(self):
+        goals = [list(goal) for goal in permutations(self.problem.goal, self.problem.numPolicemen)]
+        goalMaxDistances = []
+        for goal in goals: # Calcular a distância do polícia que está mais longe do seu objetivo
+            goalMaxDistances.append(self.goalHeuristic(goal))
+        
+        estimatedDistance = min(goalMaxDistances)
+
         return self.pathCost + estimatedDistance
 
     def tracebackPath(self):
@@ -101,7 +128,7 @@ class Frontier:
             self.lowerBound += 1
             if self.lowerBound > self.upperBound:
                 return None
-        return self.mainList[self.lowerBound].pop(0)
+        return self.mainList[self.lowerBound].pop(-1)
 
 def aStar(problem): # A*
     frontier = Frontier(MAX_HEURISTIC, Node(problem, problem.initialState, None, problem.initialAction, 0))
@@ -133,6 +160,11 @@ class SearchProblem:
         self.limitexp = limitexp
         self.limitdepth = limitdepth
 
+        if anyorder:
+            Node.calculateTotalCost = Node._calculateTotalCost_ao
+        else:
+            Node.calculateTotalCost = Node._calculateTotalCost
+
         return aStar(self)
 
     def getPossibleActions(self, state):
@@ -152,10 +184,15 @@ class SearchProblem:
             return True
 
         def validPositions(comb):
-            for i in range(len(comb) - 1):
-                for j in range(i + 1, len(comb)):
-                    if comb[i][1] == comb[j][1]: # Dois polícias querem ir para a mesma 
-                        return False             # posição -> Ação inválida
+            i = 0
+            j = 1
+            while i < self.numPolicemen - 1:
+                if comb[i][1] == comb[j][1]: # Dois polícias querem ir para a mesma 
+                    return False             # posição -> Ação inválida
+                j += 1
+                if j == self.numPolicemen:
+                    i += 1
+                    j = i + 1
             return True
         
         # Remover as ações inválidas
