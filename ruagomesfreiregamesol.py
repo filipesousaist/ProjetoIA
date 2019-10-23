@@ -24,6 +24,8 @@ class Action:
         self.newPositions = newPositions
 
 class Node:
+    count = 0
+
     def __init__(self, problem, state, parent, action, pathCost):
         self.problem = problem
         self.state = state
@@ -33,6 +35,7 @@ class Node:
         self.totalCost = self.calculateTotalCost()
 
     def expand(self):
+        Node.count += 1
         children = []
         for action in self.problem.getPossibleActions(self.state):
             children.append(self.childNode(action))
@@ -87,7 +90,7 @@ class Frontier:
         
     def insert(self, node):
         if node.totalCost > self.upperBound:
-            for i in range(node.totalCost - self.upperBound):
+            for _ in range(node.totalCost - self.upperBound):
                 self.mainList.append([])
             self.upperBound = node.totalCost
                 
@@ -105,12 +108,15 @@ def aStar(problem): # A*
     
     while True:
         node = frontier.pop()
-        if not node:
+        if (not node) or (node.pathCost > problem.limitdepth):
             return []
         if problem.isGoal(node.state):
             return node.tracebackPath()
-        for child in node.expand():
-            frontier.insert(child)
+        if Node.count < problem.limitexp:
+            for child in node.expand():
+                if Node.count < problem.limitexp:
+                    frontier.insert(child)
+        
 
 class SearchProblem:
     def __init__(self, goal, model, auxheur = []):
@@ -124,6 +130,8 @@ class SearchProblem:
         self.initialAction = Action([], init) # Ação inicial
         self.numPolicemen = len(init) # Nº de polícias
         self.anyorder = anyorder # Se interessa ou não que polícia está em cada posição objetivo
+        self.limitexp = limitexp
+        self.limitdepth = limitdepth
 
         return aStar(self)
 
