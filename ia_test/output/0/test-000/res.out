@@ -1,0 +1,7 @@
+init       [30]
+goal       [56]
+tickets    [inf, inf, inf]
+time       0.0
+error
+solution   [[[], [30]], [[2], [13]], [[2], [40]], [[2], [56]]]
+any order  False

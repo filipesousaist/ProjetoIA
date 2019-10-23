@@ -1,5 +1,3 @@
-from pickle import load
-from pprint import pprint
 import math
 
 def bfs(transitions, src):
@@ -20,14 +18,3 @@ def bfs(transitions, src):
                 vertices.append(child)
 
     return distance
-
-with open("mapasgraph2.pickle", "rb") as fp:
-    graph = load(fp)
-
-transitions = graph[1]
-
-distances = [[]]
-for v in range(1, len(transitions)):
-    distances.append(bfs(transitions, v))
-
-print(distances)
