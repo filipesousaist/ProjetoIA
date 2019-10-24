@@ -7,7 +7,7 @@ from ruagomesfreiregamesol import SearchProblem
 with open("coords.pickle", "rb") as fp:   # Unpickling
     coords = pickle.load(fp)
     
-with open("mapasgraph.pickle", "rb") as fp:   #Unpickling
+with open("mapasgraph2.pickle", "rb") as fp:   #Unpickling
     AA = pickle.load(fp)
 U = AA[1]
 
@@ -66,13 +66,108 @@ def validatepath(oP,oI,U,tickets=[25,25,25]):
         return True
 
 tinittotal = time.process_time()
-       
-print("\n(4 val) Exercise 4 - Three agents, Limits")
-print("Init [30,40,109] Goal [61,60,71]")
-SP = SearchProblem(goal = [63,61,70], model = U, auxheur=coords)
+
+print("\n(2 val) Exercise 1 - One agent, No limits")
+print("Init [30] Goal [56]")
+SP = SearchProblem(goal = [13], model = U, auxheur=coords)
 tinit = time.process_time()
-I = [30,40,109]
-nn = SP.search(I, tickets = [3,10,0])
+I = [1]
+nn = SP.search(I,limitexp = 2000)
+tend = time.process_time()
+print("%.1fms"%((tend-tinit)*1000))
+if validatepath(nn,I,U):   
+        print("path")
+        print(nn)
+        plotpath(nn,coords)     
+else:
+        print("invalid path")
+
+
+print("\n(4 val) Exercise 2 - Three agents")
+print("Init [1] Goal [13]")
+SP = SearchProblem(goal = [13], model = U, auxheur=coords)
+tinit = time.process_time()
+I = [1]
+nn = SP.search(I, tickets = [20,0,0])
+tend = time.process_time()
+print("%.1fms"%((tend-tinit)*1000))
+if validatepath(nn,I,U, tickets = [20,0,0]):
+        print("path")
+        print(nn)
+        plotpath(nn,coords)
+else:
+        print("invalid path")
+
+
+print("\n(2 val) Exercise 1 - One agent, No limits")
+print("Init [30] Goal [56]")
+SP = SearchProblem(goal = [13], model = U, auxheur=coords)
+tinit = time.process_time()
+I = [1]
+nn = SP.search(I,limitexp = 2000)
+tend = time.process_time()
+print("%.1fms"%((tend-tinit)*1000))
+if validatepath(nn,I,U):   
+        print("path")
+        print(nn)
+        plotpath(nn,coords)     
+else:
+        print("invalid path")
+
+
+print("\n(4 val) Exercise 2 - One agents")
+print("Init [1] Goal [13]")
+SP = SearchProblem(goal = [70], model = U, auxheur=coords)
+tinit = time.process_time()
+I = [2]
+nn = SP.search(I, tickets = [20,0,0])
+tend = time.process_time()
+print("%.1fms"%((tend-tinit)*1000))
+if validatepath(nn,I,U, tickets = [20,0,0]):
+        print("path")
+        print(nn)
+        plotpath(nn,coords)
+else:
+        print("invalid path")
+
+
+print("\n(4 val) Exercise 2 - One agents")
+print("Init [2] Goal [70]")
+SP = SearchProblem(goal = [70], model = U, auxheur=coords)
+tinit = time.process_time()
+I = [2]
+nn = SP.search(I, tickets = [0,100,0])
+tend = time.process_time()
+print("%.1fms"%((tend-tinit)*1000))
+if validatepath(nn,I,U, tickets = [0,100,0]):
+        print("path")
+        print(nn)
+        plotpath(nn,coords)
+else:
+        print("invalid path")
+
+
+print("\n(4 val) Exercise 2 - One agents")
+print("Init [5] Goal [33]")
+SP = SearchProblem(goal = [33], model = U, auxheur=coords)
+tinit = time.process_time()
+I = [5]
+nn = SP.search(I, tickets = [0,100,0])
+tend = time.process_time()
+print("%.1fms"%((tend-tinit)*1000))
+if validatepath(nn,I,U, tickets = [0,100,0]):
+        print("path")
+        print(nn)
+        plotpath(nn,coords)
+else:
+        print("invalid path")
+
+print("\n(4 val) Exercise 3 - Three agent, Limits")
+print("Init [30] Goal [56]")
+SP = SearchProblem(goal = [63, 61, 70], model = U, auxheur=coords)
+tinit = time.process_time()
+I = [30, 40, 109]
+nn = SP.search(I,limitexp = 2000, tickets = [3,10,0])
 tend = time.process_time()
 print("%.1fms"%((tend-tinit)*1000))
 if validatepath(nn,I,U, tickets = [3,10,0]):
@@ -81,7 +176,8 @@ if validatepath(nn,I,U, tickets = [3,10,0]):
         plotpath(nn,coords)
 else:
         print("invalid path")
-      
+
+
 tendtotal = time.process_time()
 print("Total time %.1fms"%((tendtotal-tinittotal)*1000))
 
