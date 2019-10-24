@@ -100,6 +100,8 @@ class Node:
         for d in distances:
             if d < 2:
                 has[d] = True
+            else:
+                return max(distances)
         if has[0] and has[1]:
             return 2
         else:
@@ -129,7 +131,8 @@ class Frontier:
         self.mainList = []
         for _ in range(initialSize):
             self.mainList.append([])
-        self.mainList[initialNode.totalCost].append(initialNode)
+        if (initialNode.totalCost < math.inf):
+            self.mainList[initialNode.totalCost].append(initialNode)
         self.lowerBound = initialNode.totalCost
         self.upperBound = initialSize - 1
         
