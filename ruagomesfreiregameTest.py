@@ -162,12 +162,12 @@ if validatepath(nn,I,U, tickets = [0,100,0]):
 else:
         print("invalid path")
 
-print("\n(4 val) Exercise 3 - Three agent, Limits")
+print("\n(4 val) Exercise 3 - Three agent, Limits este")
 print("Init [30] Goal [56]")
 SP = SearchProblem(goal = [63, 61, 70], model = U, auxheur=coords)
 tinit = time.process_time()
 I = [30, 40, 109]
-nn = SP.search(I,limitexp = 2000, tickets = [3,10,0])
+nn = SP.search(I, tickets = [3,10,0])
 tend = time.process_time()
 print("%.1fms"%((tend-tinit)*1000))
 if validatepath(nn,I,U, tickets = [3,10,0]):

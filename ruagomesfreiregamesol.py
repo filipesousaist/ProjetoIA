@@ -131,8 +131,10 @@ class Frontier:
         self.mainList = []
         for _ in range(initialSize):
             self.mainList.append([])
-        if (initialNode.totalCost < math.inf):
+        
+        if (initialNode.totalCost != math.inf):
             self.mainList[initialNode.totalCost].append(initialNode)
+        
         self.lowerBound = initialNode.totalCost
         self.upperBound = initialSize - 1
         
@@ -148,6 +150,9 @@ class Frontier:
         self.mainList[node.totalCost].append(node)
     
     def pop(self):
+        if (self.lowerBound == math.inf):
+            return None
+
         while not self.mainList[self.lowerBound]:
             self.lowerBound += 1
             if self.lowerBound > self.upperBound:
