@@ -164,10 +164,12 @@ def aStar(problem): # A*
     
     while True:
         node = frontier.pop()
-        if (not node) or (node.pathCost > problem.limitdepth):
+        if not node:
             return []
         if problem.isGoal(node.state):
             return node.tracebackPath()
+        if node.pathCost == problem.limitdepth:
+            continue
         for child in node.expand():
             frontier.insert(child)
         
