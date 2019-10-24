@@ -30,8 +30,6 @@ class Action:
         self.newPositions = newPositions
 
 class Node:
-    count = 0
-
     def __init__(self, problem, state, parent, action, pathCost):
         self.problem = problem
         self.state = state
@@ -41,7 +39,6 @@ class Node:
         self.totalCost = self.calculateTotalCost()
 
     def expand(self):
-        Node.count += 1
         children = []
         for action in self.problem.getPossibleActions(self.state):
             children.append(self.childNode(action))
@@ -135,10 +132,8 @@ def aStar(problem): # A*
             return []
         if problem.isGoal(node.state):
             return node.tracebackPath()
-        if Node.count < problem.limitexp:
-            for child in node.expand():
-                if Node.count < problem.limitexp:
-                    frontier.insert(child)
+        for child in node.expand():
+            frontier.insert(child)
         
 
 class SearchProblem:
@@ -153,7 +148,6 @@ class SearchProblem:
         self.initialAction = Action([], init) # Ação inicial
         self.numPolicemen = len(init) # Nº de polícias
         self.anyorder = anyorder # Se interessa ou não que polícia está em cada posição objetivo
-        self.limitexp = limitexp
         self.limitdepth = limitdepth
 
         if anyorder:

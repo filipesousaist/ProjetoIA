@@ -1,7 +1,0 @@
-init       [85, 92, 2]
-goal       [85, 92, 2]
-tickets    [70, 80, 67]
-time       0.0
-error
-solution   [[[], [85, 92, 2]]]
-any order  False

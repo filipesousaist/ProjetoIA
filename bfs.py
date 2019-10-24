@@ -7,7 +7,7 @@ def bfs(transitions, src):
     distance = [math.inf] * N
     distance[src] = 0
 
-    for i in range(N - 1):
+    for _ in range(N - 1):
         v = vertices[0]
         vertices = vertices[1:]
 

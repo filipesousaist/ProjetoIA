@@ -9,11 +9,11 @@ import copy
 from common import Sample
 
 class Config:
-	amount = 10
+	amount = 5
 	agents = 3
 
 	states = range(1, 113 + 1)
-	tickets = range(60, 100)
+	tickets = range(10, 11)
 
 	# Used for calculating path
 	limit_depth = range(4, 6)
