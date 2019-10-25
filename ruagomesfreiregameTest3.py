@@ -12,7 +12,7 @@ with open("mapasgraph2.pickle", "rb") as fp:   #Unpickling
 U = AA[1]
 
 def plotpath(P,coords):
-        return
+        #return
         img = plt.imread('maps.png')
         plt.imshow(img)
         colors = ['r.-','g+-','b^-']
@@ -71,8 +71,8 @@ print("\n(4 val) Exercise 3 - Three agent, Limits")
 print("Init [30] Goal [56]")
 SP = SearchProblem(goal = [63, 61, 70], model = U, auxheur=coords)
 tinit = time.process_time()
-I = [30, 40, 109]
-nn = SP.search(I,limitexp = 2000, limitdepth = 2, tickets = [3, 0, 10])
+I = [61, 63, 70]
+nn = SP.search(I,limitexp = 2000, limitdepth = 10, tickets = [3, 10, 10])
 tend = time.process_time()
 print("%.1fms"%((tend-tinit)*1000))
 if validatepath(nn,I,U, tickets = [3, 0, 10]):

@@ -13,7 +13,7 @@ class Config:
 	agents = 3
 
 	states = range(1, 113 + 1)
-	tickets = range(10, 11)
+	tickets = range(4, 6)
 
 	# Used for calculating path
 	limit_depth = range(4, 6)
@@ -23,7 +23,7 @@ class Config:
 	limit_depth_error = 10
 	limit_exp_error = 1000
 
-	any_order = False
+	any_order = True
 
 class Generator:
 	def __init__(self):
