@@ -155,7 +155,11 @@ class Frontier:
         return self.mainList[self.lowerBound].pop()
 
 def aStar(problem): # A*
-    frontier = Frontier(MAX_HEURISTIC, Node(problem, problem.initialState, None, problem.initialAction, 0))
+    initialNode = Node(problem, problem.initialState, None, problem.initialAction, 0)
+    if sum(problem.initialState.tickets) < initialNode.totalCost * problem.numPolicemen:
+        return [] # Há menos bilhetes do que passos que temos de dar
+
+    frontier = Frontier(MAX_HEURISTIC, initialNode)
     
     while True:
         node = frontier.pop()
@@ -163,11 +167,11 @@ def aStar(problem): # A*
             return []
         if problem.isGoal(node.state):
             return node.tracebackPath()
-        if node.pathCost >= problem.limitdepth:
+        if sum(node.state.tickets) < (node.totalCost - node.pathCost) * problem.numPolicemen or \
+            node.pathCost >= problem.limitdepth:
             continue
         for child in node.expand():
             frontier.insert(child)
-        
 
 class SearchProblem:
     def __init__(self, goal, model, auxheur = []):
@@ -180,17 +184,17 @@ class SearchProblem:
         self.initialState = State(init, tickets) # Estado inicial (posições, bilhetes)
         self.initialAction = Action([], init) # Ação inicial
         self.numPolicemen = len(init) # Nº de polícias
-        self.anyorder = anyorder # Se interessa ou não que polícia está em cada posição objetivo
         self.limitdepth = limitdepth
 
-        if anyorder:
+        if anyorder: # Se interessa ou não que polícia está em cada posição objetivo
             Node.calculateTotalCost = Node._calculateTotalCost_ao
             self.isGoal = self._isGoal_ao
         else:
             Node.calculateTotalCost = Node._calculateTotalCost
             self.isGoal = self._isGoal
-
-        return aStar(self)
+        
+        if inf not in tickets:
+            return aStar(self)
 
     def getPossibleActions(self, state):
         # Guardar as ações que cada polícia pode fazer
