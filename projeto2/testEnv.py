@@ -1,5 +1,5 @@
 from ruagomesfreiregame2sol import *
-from bookEnv import *
+from bookEnv2 import *
 import sys
 
 NUM_LEARNING_1 = 250

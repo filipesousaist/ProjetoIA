@@ -14,15 +14,33 @@ class Environment:
     def __init__(self):
         self.HIT_RATE = 1
 
-        self.WIDTH = 4
-        self.HEIGHT = 3
+        self.WIDTH = 10
+        self.HEIGHT = 10
 
         self.rewards = [[-0.04 for x in range(self.WIDTH)] for y in range(self.HEIGHT)]
         
         self.rewards[1][1] = None
+        self.rewards[3][3] = None
+        self.rewards[3][4] = None
+        self.rewards[3][6] = None
+        self.rewards[6][2] = None
+        self.rewards[7][2] = None
+        self.rewards[7][3] = None
+        self.rewards[4][8] = None
+        self.rewards[5][9] = None
+        self.rewards[0][0] = None
+        self.rewards[1][5] = None
 
         self.rewards[0][3] = 1
+        self.rewards[5][5] = 1
+        self.rewards[8][3] = 1
+        self.rewards[9][2] = 1
+        self.rewards[4][7] = 1
+        self.rewards[9][0] = -1
+        self.rewards[6][4] = -1
         self.rewards[1][3] = -1
+        self.rewards[7][4] = -1
+        self.rewards[3][1] = -1
 
     def getState(self):
         return self.agentY * self.WIDTH + self.agentX
