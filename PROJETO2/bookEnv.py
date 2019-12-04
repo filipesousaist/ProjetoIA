@@ -12,7 +12,7 @@ DIR_LIST = ('UP', 'RIGHT', 'DOWN', 'LEFT')
 
 class Environment:
     def __init__(self):
-        self.HIT_RATE = 1
+        self.HIT_RATE = 0.8
 
         self.WIDTH = 4
         self.HEIGHT = 3
@@ -31,7 +31,6 @@ class Environment:
     def getReward(self):
         return self.rewards[self.agentY][self.agentX]
 
-    # Returns new state
     def moveAgent(self, directionIndex):
         if random.random() > self.HIT_RATE:
             directionIndex += random.choice([-1, 1])
@@ -43,7 +42,29 @@ class Environment:
 
         if 0 <= newX < self.WIDTH and 0 <= newY < self.HEIGHT and self.rewards[newY][newX] != None:
             self.agentX, self.agentY = newX, newY
+        
+        # debug
+        #input()
+        #self.display()
 
     def resetAgent(self):
         self.agentX = 0
         self.agentY = 2
+
+    def display(self):
+        def sep():
+            print('-'.join(['+'] * (self.WIDTH + 1)))
+        
+        sep()
+        for y in range(self.HEIGHT):
+            line = '|'
+            for x in range(self.WIDTH):
+                if x == self.agentX and y == self.agentY:
+                    line += 'A'
+                elif self.rewards[y][x] == None:
+                    line += '#'
+                else:
+                    line += ' '
+                line += '|'
+            print(line)
+            sep()

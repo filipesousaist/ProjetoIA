@@ -2,11 +2,14 @@ from ruagomesfreiregame2sol import *
 from bookEnv import *
 import sys
 
-NUM_LEARNING_1 = 500
-NUM_LEARNING_2 = 5000
-NUM_TESTS_1 = 25
-NUM_TESTS_2 = 50
+NUM_LEARNING_1 = 250
+NUM_LEARNING_2 = 1000
+NUM_TESTS_1 = 10
+NUM_TESTS_2 = 15
+
 REPEAT = 10
+
+SHOW_AMOUNT = 30
 
 def main():
     myEnv = Environment()
@@ -14,9 +17,9 @@ def main():
     results1 = [] # Lista com objetos {alpha: ***, gamma: ***, totalReward: ***}
     results2 = [] # Lista com objetos {alpha: ***, gamma: ***, totalReward: ***}
 
-    for alpha in [i / 20 for i in range(21)]:
+    for alpha in [i / 50 for i in range(51)]:
         print("Started alpha = " + str(alpha))
-        for gamma in [i / 20 for i in range(21)]:
+        for gamma in [i / 50 for i in range(51)]:
 
             reward1 = reward2 = 0
             for _ in range(REPEAT):
@@ -41,14 +44,14 @@ def main():
     print('-----------')
     print('| TESTS 1 |')
     print('-----------')
-    for i in range(20):
+    for i in range(SHOW_AMOUNT):
         print(results1[i])
 
     results2.sort(key = sortFunc, reverse = True)
     print('-----------')
     print('| TESTS 2 |')
     print('-----------')
-    for i in range(20):
+    for i in range(SHOW_AMOUNT):
         print(results2[i])
 
 def runAgent(myAgent, myEnv, numLearning, numTests):
@@ -61,6 +64,7 @@ def runAgent(myAgent, myEnv, numLearning, numTests):
         myEnv.moveAgent(actionIndex)
         nextState = myEnv.getState()
         myAgent.learn(currentState, nextState, actionIndex, reward)
+        currentState = nextState
 
     totalReward = 0
     myEnv.resetAgent()
@@ -68,10 +72,10 @@ def runAgent(myAgent, myEnv, numLearning, numTests):
     for _ in range(numTests):
         actionIndex = myAgent.selectactiontoexecute(currentState, myEnv.getActions())
 
-        reward = myEnv.getReward()
-        totalReward += reward
+        totalReward += myEnv.getReward()
         myEnv.moveAgent(actionIndex)
         nextState = myEnv.getState()
+        currentState = nextState
 
     return totalReward
 
