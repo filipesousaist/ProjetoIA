@@ -2,9 +2,9 @@ from ruagomesfreiregame2sol import *
 from bookEnv2 import *
 import sys
 
-NUM_LEARNING_1 = 250
-NUM_LEARNING_2 = 1000
-NUM_TESTS_1 = 10
+NUM_LEARNING_1 = 500
+NUM_LEARNING_2 = 2000
+NUM_TESTS_1 = 15
 NUM_TESTS_2 = 15
 
 REPEAT = 10
@@ -17,9 +17,9 @@ def main():
     results1 = [] # Lista com objetos {alpha: ***, gamma: ***, totalReward: ***}
     results2 = [] # Lista com objetos {alpha: ***, gamma: ***, totalReward: ***}
 
-    for alpha in [i / 50 for i in range(51)]:
+    for alpha in [i / 20 for i in range(21)]:
         print("Started alpha = " + str(alpha))
-        for gamma in [i / 50 for i in range(51)]:
+        for gamma in [i / 20 for i in range(21)]:
 
             reward1 = reward2 = 0
             for _ in range(REPEAT):
