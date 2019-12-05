@@ -14,9 +14,9 @@ class LearningAgent:
         self.nS = nS
         self.nA = nA
 
-        self.ALPHA = 0.75
-        self.GAMMA = 0.5
-        self.EXPLORATION_RATE = 0.9
+        self.ALPHA = 0.7
+        self.GAMMA = 0.8
+        self.EXPLORATION_RATE = 0.8
 
         self.visited = [False] * nS
 
@@ -38,6 +38,8 @@ class LearningAgent:
 
         numActions = len(aa)
 
+        self.EXPLORATION_RATE = max(0.2, self.EXPLORATION_RATE * 0.9992)
+
         if not self.visited[st]:
             self.visited[st] = True
             self.Q[st] = [0] * numActions
@@ -45,8 +47,6 @@ class LearningAgent:
             return random.randint(0, numActions - 1)
 
         if random.random() < self.EXPLORATION_RATE: # Explore
-            #self.EXPLORATION_RATE = max(0.7, self.EXPLORATION_RATE * 0.98)
-
             numExecutions = self.N[st] # Number of times that each action was executed in this state
             minExecutions = min(numExecutions) # Minimum number of executions fora action of  that state
             minIndices = [actionIndex for actionIndex in range(numActions) if numExecutions[actionIndex] == minExecutions]
@@ -94,6 +94,8 @@ class LearningAgent:
     def learn(self,ost,nst,a,r):
         # define this function
         #print("learn something from this data")
+
+        self.ALPHA = max(0.15, self.ALPHA * 0.9992)
 
         self.N[ost][a] += 1
         

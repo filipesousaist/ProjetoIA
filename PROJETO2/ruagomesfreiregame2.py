@@ -3,6 +3,8 @@ import random
 import matplotlib.pyplot as plt
 from ruagomesfreiregame2sol import *
 
+DETERMINISTIC_FACTOR = 1
+
 def runagent(A, T, R, I = 1, learningphase=True, nlearn = 1000, ntest = 100):
 
         J = 0
@@ -19,7 +21,10 @@ def runagent(A, T, R, I = 1, learningphase=True, nlearn = 1000, ntest = 100):
                 else:
                         a = A.selectactiontoexecute(st,aa)
                 try:
-                        nst = T[st][0][a]
+                        if random.random() < DETERMINISTIC_FACTOR:
+                                nst = T[st][0][a]
+                        else:
+                                nst = st
                 except:
                         print(st,a)
                 r = R[st]

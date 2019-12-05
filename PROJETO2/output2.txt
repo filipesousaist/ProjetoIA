@@ -1,0 +1,118 @@
+Started alpha = 0.0
+Started alpha = 0.02
+Started alpha = 0.04
+Started alpha = 0.06
+Started alpha = 0.08
+Started alpha = 0.1
+Started alpha = 0.12
+Started alpha = 0.14
+Started alpha = 0.16
+Started alpha = 0.18
+Started alpha = 0.2
+Started alpha = 0.22
+Started alpha = 0.24
+Started alpha = 0.26
+Started alpha = 0.28
+Started alpha = 0.3
+Started alpha = 0.32
+Started alpha = 0.34
+Started alpha = 0.36
+Started alpha = 0.38
+Started alpha = 0.4
+Started alpha = 0.42
+Started alpha = 0.44
+Started alpha = 0.46
+Started alpha = 0.48
+Started alpha = 0.5
+Started alpha = 0.52
+Started alpha = 0.54
+Started alpha = 0.56
+Started alpha = 0.58
+Started alpha = 0.6
+Started alpha = 0.62
+Started alpha = 0.64
+Started alpha = 0.66
+Started alpha = 0.68
+Started alpha = 0.7
+Started alpha = 0.72
+Started alpha = 0.74
+Started alpha = 0.76
+Started alpha = 0.78
+Started alpha = 0.8
+Started alpha = 0.82
+Started alpha = 0.84
+Started alpha = 0.86
+Started alpha = 0.88
+Started alpha = 0.9
+Started alpha = 0.92
+Started alpha = 0.94
+Started alpha = 0.96
+Started alpha = 0.98
+Started alpha = 1.0
+Finished all tests
+-----------
+| TESTS 1 |
+-----------
+{'alpha': 0.78, 'gamma': 0.74, 'avgReward': 0.5082666666666666}
+{'alpha': 0.8, 'gamma': 0.84, 'avgReward': 0.47306666666666664}
+{'alpha': 0.7, 'gamma': 0.46, 'avgReward': 0.4314666666666666}
+{'alpha': 0.88, 'gamma': 0.86, 'avgReward': 0.4314666666666666}
+{'alpha': 0.72, 'gamma': 0.86, 'avgReward': 0.41919999999999996}
+{'alpha': 0.58, 'gamma': 0.86, 'avgReward': 0.4175999999999999}
+{'alpha': 0.68, 'gamma': 0.86, 'avgReward': 0.40373333333333333}
+{'alpha': 1.0, 'gamma': 0.3, 'avgReward': 0.40373333333333333}
+{'alpha': 0.9, 'gamma': 0.74, 'avgReward': 0.39733333333333337}
+{'alpha': 1.0, 'gamma': 0.96, 'avgReward': 0.39733333333333326}
+{'alpha': 0.74, 'gamma': 0.78, 'avgReward': 0.3968}
+{'alpha': 0.84, 'gamma': 0.78, 'avgReward': 0.39093333333333324}
+{'alpha': 0.58, 'gamma': 0.96, 'avgReward': 0.3845333333333333}
+{'alpha': 0.82, 'gamma': 0.42, 'avgReward': 0.3829333333333334}
+{'alpha': 1.0, 'gamma': 0.9, 'avgReward': 0.3770666666666667}
+{'alpha': 0.84, 'gamma': 0.7, 'avgReward': 0.37600000000000006}
+{'alpha': 0.68, 'gamma': 0.84, 'avgReward': 0.37599999999999995}
+{'alpha': 0.74, 'gamma': 0.62, 'avgReward': 0.37599999999999995}
+{'alpha': 0.9, 'gamma': 0.66, 'avgReward': 0.36960000000000004}
+{'alpha': 0.62, 'gamma': 0.64, 'avgReward': 0.3696}
+{'alpha': 0.76, 'gamma': 0.72, 'avgReward': 0.3696}
+{'alpha': 0.98, 'gamma': 0.58, 'avgReward': 0.36959999999999993}
+{'alpha': 0.72, 'gamma': 0.7, 'avgReward': 0.3690666666666667}
+{'alpha': 1.0, 'gamma': 0.6, 'avgReward': 0.3690666666666667}
+{'alpha': 0.7, 'gamma': 0.82, 'avgReward': 0.36906666666666665}
+{'alpha': 0.72, 'gamma': 0.68, 'avgReward': 0.36906666666666665}
+{'alpha': 0.92, 'gamma': 0.4, 'avgReward': 0.36373333333333335}
+{'alpha': 0.96, 'gamma': 0.94, 'avgReward': 0.3632}
+{'alpha': 0.84, 'gamma': 0.96, 'avgReward': 0.36319999999999997}
+{'alpha': 0.88, 'gamma': 0.7, 'avgReward': 0.36319999999999997}
+-----------
+| TESTS 2 |
+-----------
+{'alpha': 0.06, 'gamma': 0.74, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.82, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.86, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.88, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.9, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.92, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.94, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.96, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 0.98, 'avgReward': 0.6533333333333332}
+{'alpha': 0.06, 'gamma': 1.0, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.58, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.6, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.64, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.66, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.68, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.7, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.72, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.74, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.76, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.78, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.8, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.82, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.84, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.86, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.88, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.9, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.92, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.94, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.96, 'avgReward': 0.6533333333333332}
+{'alpha': 0.08, 'gamma': 0.98, 'avgReward': 0.6533333333333332}
