@@ -1,5 +1,96 @@
 import random
 
+# Doubly Linked List Node
+class DLLNode:
+    def __init__(self, action, q):
+        self.action = action
+        self.q = q
+        self.previous = None
+        self.next = None
+
+# Doubly Linked List
+class DLL:
+    def __init__(self):
+        self.first = self.last = None
+        self.length = 0
+    
+    def push(self, action, q):
+        new = DLLNode(action, q)
+        if self.last == None:
+            self.first = self.last = new
+        else:
+            self.last.next = new
+            new.previous = self.last
+            self.last = new
+        self.length += 1
+    
+    def pop(self):
+        if self.length == 0:
+            return None
+
+        toRemove = self.last
+        self.last = toRemove.previous
+        
+        if toRemove.previous: # Not first element
+            toRemove.previous.next = None
+        else:
+            self.first = None
+
+        self.length -= 1
+
+        return (toRemove.action, toRemove.q)
+
+    def reorder(self, node):
+        if node.previous and node.q < node.previous.q:
+            # Remove node from DLL
+            node.previous.next = node.next
+            if not node.next:
+                self.last = node.previous
+            else:
+                node.next.previous = node.previous
+            
+            # Recalculate position
+            current = node.previous.previous
+            node.previous = node.next = None
+            while current and node.q < current.q:
+                current = current.previous
+            
+            if current: # Middle of list
+                node.previous = current
+                node.next = current.next
+                current.next.previous = node
+                current.next = node
+            else: # First position of list
+                self.first.previous = node
+                node.next = self.first
+                self.first = node
+        
+        elif node.next and node.q > node.next.q:
+            # Remove node from DLL
+            node.next.previous = node.previous
+            if not node.previous:
+                self.first = node.next
+            else:
+                node.previous.next = node.next
+            
+
+            # Recalculate position
+            current = node.next.next
+            node.next = node.previous = None  
+            while current and node.q > current.q:
+                current = current.next
+            
+            if current: # Middle of list
+                node.next = current
+                node.previous = current.previous
+                current.previous.next = node
+                current.previous = node
+            else: # Last position of list
+                self.last.next = node
+                node.previous = self.last
+                self.last = node
+
+
 # LearningAgent to implement
 # no knowledeg about the environment can be used
 # the code should work even with another environment
@@ -14,19 +105,23 @@ class LearningAgent:
         self.nS = nS
         self.nA = nA
 
-        self.alpha = 0.7
         self.GAMMA = 0.8
         self.THETA = 0.01
-        #self.EXPLORATION_RATE = 0.8
-        self.PREDICT_ANTECESSOR_RATE = 0.5
+        self.EXPLORATION_RATE = 0.2
+        self.MAX_UPDATES = 5
 
         self.visited = [False] * nS
-
+        
+        
         self.Q = [None for _ in range(nS)]
         self.N = [None for _ in range(nS)]
         self.model = [[] for _ in range(nS)]
         self.queue = []
+        self.ancestors = [set() for _ in range(nS)]
         # define this function
+
+        self.qNodes = [None for _ in range(nS)]
+        self.qLists = [None for _ in range(nS)]
     
     
     # Select one action, used when learning  
@@ -44,18 +139,30 @@ class LearningAgent:
 
         if not self.visited[st]:
             self.visited[st] = True
-            self.Q[st] = [0] * numActions
+            #self.Q[st] = [0] * numActions
             self.N[st] = [0] * numActions
-            for _ in range(numActions):
-                self.model[st].append({})
+
+            self.qLists[st] = DLL()
+            self.qNodes[st] = []   
+            for action in range(numActions):
+                self.model[st].append([])
+                self.qLists[st].push(action, 0)
+                self.qNodes[st].append(self.qLists[st].last)
 
             return random.randint(0, numActions - 1)
 
-        rewards = self.Q[st]
-        maxReward = max(rewards)
-        maxIndices = [actionIndex for actionIndex in range(numActions) if rewards[actionIndex] == maxReward]
+        if random.random() > self.EXPLORATION_RATE: # Exploit an action with max q
+            current = self.qLists[st].last
+            maxQ = current.q
+            maxQActions = [current.action]
+            while current.previous and current.previous.q == maxQ:
+                current = current.previous 
+                maxQActions.append(current.action)
 
-        a = random.choice(maxIndices) # Choose randomly if there is more than one with the same value
+            a = random.choice(maxQActions)
+
+        else: # Explore
+            a = random.randint(0, numActions - 1)
         
         return a
 
@@ -74,12 +181,15 @@ class LearningAgent:
 
         if not self.visited[st]:
             return random.randint(0, numActions - 1)
+        
+        current = self.qLists[st].last
+        maxQ = current.q
+        maxQActions = [current.action]
+        while current.previous and current.previous.q == maxQ:
+            current = current.previous 
+            maxQActions.append(current.action)
 
-        rewards = self.Q[st]
-        maxReward = max(rewards)
-        maxIndices = [actionIndex for actionIndex in range(numActions) if rewards[actionIndex] == maxReward]
-
-        a = random.choice(maxIndices) # Choose randomly if there is more than one with the same value
+        a = random.choice(maxQActions)
 
         return a
 
@@ -93,54 +203,50 @@ class LearningAgent:
         # define this function
         #print("learn something from this data")
 
+        self.ancestors[nst].add((ost, a)) # Note: "(ost, a)" is only added if it is not already in "ancestors"
         self.N[ost][a] += 1
 
         # Update model
         currentModel = self.model[ost][a]
-        if nst not in currentModel:
-            currentModel[nst] = {'reward': r, 'frequency': 1}
-        else:
-            currentModel[nst]['frequency'] += 1
-        
+        currentModel.append({'state': nst, 'reward': r})
+
+        # Update Q-value
+        oldQ = self.qNodes[ost][a].q
+        totalReward = 0
+        for outcome in currentModel: # Iterate over "memorized" (state, reward) outcomes and compute a weighted sum
+            totalReward += outcome['reward'] + self.GAMMA * self.maxQ(outcome['state'])
+        self.qNodes[ost][a].q = totalReward / self.N[ost][a]
+        self.qLists[ost].reorder(self.qNodes[ost][a])
+
         # Determine priority
-        priority = abs(r + self.GAMMA * (max(self.Q[nst]) if self.visited[nst] else 0) - self.Q[ost][a])
+        priority = abs(self.qNodes[ost][a].q - oldQ)
 
-        if priority > self.THETA:
-            orderedInsert(self.queue, {'state': ost, 'action': a, 'priority': priority})
+        if priority >= self.THETA and self.maxQ(ost) in (oldQ, self.qNodes[ost][a].q):
+            orderedInsert(self.queue, {'state': ost, 'priority': priority})
         
-        while len(self.queue):
+        updates = 1
+        while len(self.queue) and updates < self.MAX_UPDATES:
             # Determine (state, action) with highest priority
-            element = self.queue.pop()
-            state, action = element['state'], element['action']
+            state = self.queue.pop()['state']
+            for ancState, ancAction in self.ancestors[state]: # Iterate over (state, action) pairs that lead to current state
+                # Update Q-value
+                oldQ = self.qNodes[ancState][ancAction].q
+                totalReward = 0
+                for outcome in self.model[ancState][ancAction]:
+                    totalReward += outcome['reward'] + self.GAMMA * self.maxQ(outcome['state'])
+                self.qNodes[ancState][ancAction].q = totalReward / self.N[ancState][ancAction]
+                self.qLists[ancState].reorder(self.qNodes[ancState][ancAction])
 
-            currentModel = self.model[state][action]
-
-            weightedSum = 0
-            for nextState in currentModel:
-                r = currentModel[nextState]['reward']
-                maxQ = max(self.Q[nextState]) if self.visited[nextState] else 0
-                factor = currentModel[nextState]['frequency'] / self.N[state][action]
-                weightedSum += factor * (r + self.GAMMA * maxQ)
-
-            self.Q[state][action] += self.alpha * (weightedSum - self.Q[state][action])
-
-            for ancestorState, ancestorAction, reward in self.getPredictedAncestors(state):
-                priority = abs(reward + self.GAMMA * (max(self.Q[state]) if self.visited[state] else 0) - self.Q[ancestorState][ancestorAction])
-                if priority > self.THETA:
-                    orderedInsert(self.queue, {'state': ancestorState, 'action': ancestorAction, 'priority': priority})
-
-        self.alpha = max(0.15, self.alpha * 0.9992)
-        
-        return
-
-    def getPredictedAncestors(self, state):
-        for oldState in range(self.nS):
-            if self.visited[state]:
-                for action in range(len(self.model[oldState])):
-                    if state in self.model[oldState][action] and \
-                       self.model[oldState][action][state]['frequency'] / self.N[oldState][action] >= self.PREDICT_ANTECESSOR_RATE:
-                       yield (oldState, action, self.model[oldState][action][state]['reward'])
+                # Determine priority
+                priority = abs(self.qNodes[ancState][ancAction].q - oldQ)
+                  
+                if priority >= self.THETA:
+                    updates += 1
+                    if self.maxQ(ancState) in (oldQ, self.qNodes[ancState][ancAction].q):
+                        orderedInsert(self.queue, {'state': ancState, 'priority': priority})
     
+    def maxQ(self, st):
+        return self.qLists[st].last.q if self.visited[st] else 0
 
 def orderedInsert(queue, element):
     for i in range(len(queue)):

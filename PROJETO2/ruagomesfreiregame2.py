@@ -3,7 +3,7 @@ import random
 import matplotlib.pyplot as plt
 from ruagomesfreiregame2sol import *
 
-DETERMINISTIC_FACTOR = 0.9
+DETERMINISTIC_FACTOR = 0.8
 
 def runagent(A, T, R, I = 1, learningphase=True, nlearn = 1000, ntest = 100):
 
