@@ -1,0 +1,168 @@
+Started alpha = 0.0
+Started alpha = 0.01
+Started alpha = 0.02
+Started alpha = 0.03
+Started alpha = 0.04
+Started alpha = 0.05
+Started alpha = 0.06
+Started alpha = 0.07
+Started alpha = 0.08
+Started alpha = 0.09
+Started alpha = 0.1
+Started alpha = 0.11
+Started alpha = 0.12
+Started alpha = 0.13
+Started alpha = 0.14
+Started alpha = 0.15
+Started alpha = 0.16
+Started alpha = 0.17
+Started alpha = 0.18
+Started alpha = 0.19
+Started alpha = 0.2
+Started alpha = 0.21
+Started alpha = 0.22
+Started alpha = 0.23
+Started alpha = 0.24
+Started alpha = 0.25
+Started alpha = 0.26
+Started alpha = 0.27
+Started alpha = 0.28
+Started alpha = 0.29
+Started alpha = 0.3
+Started alpha = 0.31
+Started alpha = 0.32
+Started alpha = 0.33
+Started alpha = 0.34
+Started alpha = 0.35
+Started alpha = 0.36
+Started alpha = 0.37
+Started alpha = 0.38
+Started alpha = 0.39
+Started alpha = 0.4
+Started alpha = 0.41
+Started alpha = 0.42
+Started alpha = 0.43
+Started alpha = 0.44
+Started alpha = 0.45
+Started alpha = 0.46
+Started alpha = 0.47
+Started alpha = 0.48
+Started alpha = 0.49
+Started alpha = 0.5
+Started alpha = 0.51
+Started alpha = 0.52
+Started alpha = 0.53
+Started alpha = 0.54
+Started alpha = 0.55
+Started alpha = 0.56
+Started alpha = 0.57
+Started alpha = 0.58
+Started alpha = 0.59
+Started alpha = 0.6
+Started alpha = 0.61
+Started alpha = 0.62
+Started alpha = 0.63
+Started alpha = 0.64
+Started alpha = 0.65
+Started alpha = 0.66
+Started alpha = 0.67
+Started alpha = 0.68
+Started alpha = 0.69
+Started alpha = 0.7
+Started alpha = 0.71
+Started alpha = 0.72
+Started alpha = 0.73
+Started alpha = 0.74
+Started alpha = 0.75
+Started alpha = 0.76
+Started alpha = 0.77
+Started alpha = 0.78
+Started alpha = 0.79
+Started alpha = 0.8
+Started alpha = 0.81
+Started alpha = 0.82
+Started alpha = 0.83
+Started alpha = 0.84
+Started alpha = 0.85
+Started alpha = 0.86
+Started alpha = 0.87
+Started alpha = 0.88
+Started alpha = 0.89
+Started alpha = 0.9
+Started alpha = 0.91
+Started alpha = 0.92
+Started alpha = 0.93
+Started alpha = 0.94
+Started alpha = 0.95
+Started alpha = 0.96
+Started alpha = 0.97
+Started alpha = 0.98
+Started alpha = 0.99
+Started alpha = 1.0
+Finished all tests
+-----------
+| TESTS 1 |
+-----------
+{'alpha': 0.98, 'gamma': 0.7, 'avgReward': 0.33290666666666663}
+{'alpha': 1.0, 'gamma': 0.82, 'avgReward': 0.3236266666666665}
+{'alpha': 1.0, 'gamma': 0.67, 'avgReward': 0.3173333333333333}
+{'alpha': 1.0, 'gamma': 0.69, 'avgReward': 0.31418666666666656}
+{'alpha': 1.0, 'gamma': 0.7, 'avgReward': 0.3113599999999999}
+{'alpha': 0.89, 'gamma': 0.66, 'avgReward': 0.3041066666666667}
+{'alpha': 1.0, 'gamma': 0.74, 'avgReward': 0.3002133333333331}
+{'alpha': 1.0, 'gamma': 0.75, 'avgReward': 0.29952}
+{'alpha': 1.0, 'gamma': 0.6, 'avgReward': 0.2985600000000001}
+{'alpha': 1.0, 'gamma': 0.66, 'avgReward': 0.29818666666666654}
+{'alpha': 1.0, 'gamma': 0.3, 'avgReward': 0.29503999999999997}
+{'alpha': 1.0, 'gamma': 0.85, 'avgReward': 0.2947733333333333}
+{'alpha': 1.0, 'gamma': 0.8, 'avgReward': 0.29216}
+{'alpha': 0.93, 'gamma': 0.79, 'avgReward': 0.2918933333333332}
+{'alpha': 0.96, 'gamma': 0.83, 'avgReward': 0.29141333333333325}
+{'alpha': 1.0, 'gamma': 0.63, 'avgReward': 0.28762666666666675}
+{'alpha': 0.99, 'gamma': 0.7, 'avgReward': 0.28719999999999996}
+{'alpha': 0.87, 'gamma': 0.84, 'avgReward': 0.28458666666666665}
+{'alpha': 1.0, 'gamma': 0.62, 'avgReward': 0.2841066666666668}
+{'alpha': 1.0, 'gamma': 0.73, 'avgReward': 0.2836266666666667}
+{'alpha': 0.92, 'gamma': 0.76, 'avgReward': 0.28277333333333327}
+{'alpha': 0.82, 'gamma': 0.82, 'avgReward': 0.2825599999999999}
+{'alpha': 1.0, 'gamma': 0.25, 'avgReward': 0.28208}
+{'alpha': 0.9, 'gamma': 0.83, 'avgReward': 0.27952}
+{'alpha': 1.0, 'gamma': 0.64, 'avgReward': 0.2785066666666666}
+{'alpha': 1.0, 'gamma': 0.52, 'avgReward': 0.27706666666666663}
+{'alpha': 1.0, 'gamma': 0.83, 'avgReward': 0.27663999999999983}
+{'alpha': 1.0, 'gamma': 0.61, 'avgReward': 0.2756266666666667}
+{'alpha': 0.86, 'gamma': 0.77, 'avgReward': 0.27440000000000003}
+{'alpha': 0.97, 'gamma': 0.69, 'avgReward': 0.27370666666666665}
+-----------
+| TESTS 2 |
+-----------
+{'alpha': 0.06, 'gamma': 0.85, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.9, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.91, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.92, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.94, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.95, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.96, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.97, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.98, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 0.99, 'avgReward': 0.6533333333333322}
+{'alpha': 0.06, 'gamma': 1.0, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.76, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.78, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.81, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.83, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.84, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.85, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.86, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.87, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.88, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.89, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.9, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.91, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.92, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.93, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.94, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.95, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.96, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.97, 'avgReward': 0.6533333333333322}
+{'alpha': 0.07, 'gamma': 0.98, 'avgReward': 0.6533333333333322}
