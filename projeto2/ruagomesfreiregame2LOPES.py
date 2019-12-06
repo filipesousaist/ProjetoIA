@@ -1,7 +1,7 @@
 import pickle
 import random
 import matplotlib.pyplot as plt
-from ruagomesfreiregame2sol import *
+from ruagomesfreiregame2solDYNAQ import *
 
 def runagent(A, T, R, I = 1, learningphase=True, nlearn = 1000, ntest = 100):
 
@@ -19,7 +19,7 @@ def runagent(A, T, R, I = 1, learningphase=True, nlearn = 1000, ntest = 100):
 				else:
 						a = A.selectactiontoexecute(st,aa)
 				try:
-						if random.random() >= 0.0:
+						if random.random() >= 0.3:
 							nst = T[st][0][a]
 						else:
 							nst = st

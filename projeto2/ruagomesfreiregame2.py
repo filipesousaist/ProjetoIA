@@ -1,7 +1,7 @@
 import pickle
 import random
 import matplotlib.pyplot as plt
-from ruagomesfreiregame2sol import *
+from ruagomesfreiregame2solDYNAQ import *
 
 DETERMINISTIC_FACTOR = 0.8
 
