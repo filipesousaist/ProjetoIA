@@ -1,9 +1,9 @@
 import pickle
 import random
 import matplotlib.pyplot as plt
-from ruagomesfreiregame2solDYNAQ import *
+from T024 import *
 
-DETERMINISTIC_FACTOR = 0.8
+DETERMINISTIC_FACTOR = 0.9
 
 def runagent(A, T, R, I = 1, learningphase=True, nlearn = 1000, ntest = 100):
 
